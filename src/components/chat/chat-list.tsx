@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { Box, IconButton, List, ListItem, ListItemButton, ListItemText, Typography } from "@mui/material";
-import { DotsThree, Plus } from "@phosphor-icons/react";
+import { Plus, Trash } from "@phosphor-icons/react";
 
 export function ChatList(): React.JSX.Element {
 	return (
@@ -72,7 +72,7 @@ export function ChatList(): React.JSX.Element {
 								fontWeight: 500,
 							}}
 						/>
-						<DotsThree size={24} weight="bold" style={{ opacity: 0.7 }} />
+						<Trash size={24} weight="bold" style={{ opacity: 0.7 }} />
 					</ListItemButton>
 				</ListItem>
 			</List>

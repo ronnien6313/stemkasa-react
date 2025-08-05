@@ -17,7 +17,7 @@ export function ChatBox(): React.JSX.Element {
 			<Box
 				sx={{
 					p: 2,
-					bgcolor: "#c8a8e9",
+					bgcolor: "white",
 					display: "flex",
 					alignItems: "center",
 					gap: 1,
@@ -40,7 +40,7 @@ export function ChatBox(): React.JSX.Element {
 						fontWeight: 500,
 					}}
 				>
-					Placeholder Bot
+					Some Bot
 				</Typography>
 			</Box>
 
@@ -92,7 +92,6 @@ export function ChatBox(): React.JSX.Element {
 						</Typography>
 					</Avatar>
 
-					{/* Input Field */}
 					<TextField
 						fullWidth
 						placeholder="Your message here"
