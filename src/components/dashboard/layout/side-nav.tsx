@@ -1,8 +1,9 @@
 "use client";
 
 import * as React from "react";
-import RouterLink from "next/link";
-import { usePathname } from "next/navigation";
+// Remove RouterLink and usePathname since we're not doing page navigation
+// import RouterLink from "next/link";
+// import { usePathname } from "next/navigation";
 // instead of …LogoNoBg.png
 import stemkasaLogo from "@/assets/stemkasalogo.png";
 import Box from "@mui/material/Box";
@@ -11,15 +12,19 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 
 import type { NavItemConfig } from "@/types/nav";
-import { paths } from "@/paths";
-import { isNavItemActive } from "@/lib/is-nav-item-active";
+
+// import { paths } from "@/paths";
+// import { isNavItemActive } from "@/lib/is-nav-item-active";
 
 import { navItems } from "./config";
 import { navIcons } from "./nav-icons";
 
-export function SideNav(): React.JSX.Element {
-	const pathname = usePathname();
+interface SideNavProps {
+	activeChatbot: string;
+	onChatbotChange: (chatbotKey: string) => void;
+}
 
+export function SideNav({ activeChatbot, onChatbotChange }: SideNavProps): React.JSX.Element {
 	return (
 		<Box
 			sx={{
@@ -50,8 +55,6 @@ export function SideNav(): React.JSX.Element {
 		>
 			<Stack spacing={2} sx={{ p: 3 }}>
 				<Box
-					component={RouterLink}
-					href={paths.home}
 					sx={{
 						display: "flex",
 						justifyContent: "center",
@@ -80,18 +83,28 @@ export function SideNav(): React.JSX.Element {
 			</Stack>
 
 			<Box component="nav" sx={{ flex: "1 1 auto", p: "12px" }}>
-				{renderNavItems({ pathname, items: navItems })}
+				{renderNavItems({ activeChatbot, onChatbotChange, items: navItems })}
 			</Box>
 			<Divider sx={{ borderColor: "var(--mui-palette-neutral-700)" }} />
 		</Box>
 	);
 }
 
-function renderNavItems({ items = [], pathname }: { items?: NavItemConfig[]; pathname: string }): React.JSX.Element {
+function renderNavItems({
+	items = [],
+	activeChatbot,
+	onChatbotChange,
+}: {
+	items?: NavItemConfig[];
+	activeChatbot: string;
+	onChatbotChange: (chatbotKey: string) => void;
+}): React.JSX.Element {
 	const children = items.reduce((acc: React.ReactNode[], curr: NavItemConfig): React.ReactNode[] => {
 		const { key, ...item } = curr;
 
-		acc.push(<NavItem key={key} pathname={pathname} {...item} />);
+		acc.push(
+			<NavItem key={key} activeChatbot={activeChatbot} onChatbotChange={onChatbotChange} chatbotKey={key} {...item} />
+		);
 
 		return acc;
 	}, []);
@@ -103,30 +116,38 @@ function renderNavItems({ items = [], pathname }: { items?: NavItemConfig[]; pat
 	);
 }
 
-interface NavItemProps extends Omit<NavItemConfig, "items"> {
-	pathname: string;
+interface NavItemProps extends Omit<NavItemConfig, "items" | "href"> {
+	activeChatbot: string;
+	onChatbotChange: (chatbotKey: string) => void;
+	chatbotKey: string;
 }
 
-function NavItem({ disabled, external, href, icon, matcher, pathname, title }: NavItemProps): React.JSX.Element {
-	const active = isNavItemActive({ disabled, external, href, matcher, pathname });
+function NavItem({
+	disabled,
+	icon,
+	title,
+	activeChatbot,
+	onChatbotChange,
+	chatbotKey,
+}: NavItemProps): React.JSX.Element {
+	const active = activeChatbot === chatbotKey;
 	const Icon = icon ? navIcons[icon] : null;
+
+	const handleClick = () => {
+		if (!disabled) {
+			onChatbotChange(chatbotKey);
+		}
+	};
 
 	return (
 		<li>
 			<Box
-				{...(href
-					? {
-							component: external ? "a" : RouterLink,
-							href,
-							target: external ? "_blank" : undefined,
-							rel: external ? "noreferrer" : undefined,
-						}
-					: { role: "button" })}
+				onClick={handleClick}
 				sx={{
 					alignItems: "center",
 					borderRadius: 1,
 					color: "var(--NavItem-color)",
-					cursor: "pointer",
+					cursor: disabled ? "not-allowed" : "pointer",
 					display: "flex",
 					flex: "0 0 auto",
 					gap: 1,
@@ -134,12 +155,19 @@ function NavItem({ disabled, external, href, icon, matcher, pathname, title }: N
 					position: "relative",
 					textDecoration: "none",
 					whiteSpace: "nowrap",
+					"&:hover": !disabled
+						? {
+								bgcolor: "var(--NavItem-hover-background)",
+							}
+						: {},
 					...(disabled && {
 						bgcolor: "var(--NavItem-disabled-background)",
 						color: "var(--NavItem-disabled-color)",
-						cursor: "not-allowed",
 					}),
-					...(active && { bgcolor: "var(--NavItem-active-background)", color: "var(--NavItem-active-color)" }),
+					...(active && {
+						bgcolor: "var(--NavItem-active-background)",
+						color: "var(--NavItem-active-color)",
+					}),
 				}}
 			>
 				<Box sx={{ alignItems: "center", display: "flex", justifyContent: "center", flex: "0 0 auto" }}>

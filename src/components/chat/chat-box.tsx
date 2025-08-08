@@ -4,7 +4,12 @@ import * as React from "react";
 import { Avatar, Box, IconButton, InputAdornment, Paper, TextField, Typography } from "@mui/material";
 import { Image, Microphone, Paperclip, PaperPlaneTilt } from "@phosphor-icons/react";
 
-export function ChatBox(): React.JSX.Element {
+interface ChatBoxProps {
+	chatbotName?: string;
+	chatbotKey?: string;
+}
+
+export function ChatBox({ chatbotName = "AI Assistant", chatbotKey = "default" }: ChatBoxProps): React.JSX.Element {
 	return (
 		<Box
 			sx={{
@@ -31,7 +36,7 @@ export function ChatBox(): React.JSX.Element {
 						fontSize: "16px",
 					}}
 				>
-					B
+					{chatbotName.charAt(0).toUpperCase()}
 				</Avatar>
 				<Typography
 					variant="subtitle1"
@@ -40,7 +45,7 @@ export function ChatBox(): React.JSX.Element {
 						fontWeight: 500,
 					}}
 				>
-					Some Bot
+					{chatbotName}
 				</Typography>
 			</Box>
 
