@@ -38,16 +38,27 @@ export function ChatList(): React.JSX.Element {
 				</Typography>
 				<IconButton
 					sx={{
-						bgcolor: "#7c3aed",
+						bgcolor: "#8b5cf6",
 						color: "white",
 						width: 32,
 						height: 32,
+						minWidth: 32,
+						minHeight: 32,
+						display: "flex",
+						alignItems: "center",
+						justifyContent: "center",
+						padding: "0 !important",
+						margin: 0,
+						borderRadius: "50%",
+						"& .MuiTouchRipple-root": {
+							display: "none",
+						},
 						"&:hover": {
 							bgcolor: "#6d28d9",
 						},
 					}}
 				>
-					<Plus size={16} weight="bold" />
+					<Plus size={14} weight="bold" style={{ display: "block" }} />
 				</IconButton>
 			</Box>
 
@@ -55,7 +66,7 @@ export function ChatList(): React.JSX.Element {
 				<ListItem disablePadding>
 					<ListItemButton
 						sx={{
-							bgcolor: "#7c3aed",
+							bgcolor: "#8b5cf6",
 							color: "white",
 							mx: 1,
 							my: 0.5,

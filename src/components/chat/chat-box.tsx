@@ -1,15 +1,83 @@
 "use client";
 
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import { Avatar, Box, IconButton, InputAdornment, Paper, TextField, Typography } from "@mui/material";
 import { Image, Microphone, Paperclip, PaperPlaneTilt } from "@phosphor-icons/react";
 
+import { ApiClient, ChatMessage } from "../../lib/chat-api-client";
+
 interface ChatBoxProps {
-	chatbotName?: string;
-	chatbotKey?: string;
+	chatbotName: string;
+	chatbotKey: string;
 }
 
-export function ChatBox({ chatbotName = "AI Assistant", chatbotKey = "default" }: ChatBoxProps): React.JSX.Element {
+const getChatbotWelcomeMessage = (chatbotKey: string): string => {
+	switch (chatbotKey) {
+		case "AiAgent":
+			return "Please describe the AI agent you want to create. Include details about its personality, knowledge areas, and how it should interact with users.";
+		case "Claude":
+			return "Hi! I'm Claude, please provide your question.";
+		case "ConversationalAppCreator":
+			return "Please briefly describe the purpose of your app, what information will it require from its user, and what should it display to them.";
+		case "Deepfake":
+			return "Hello! I am Deepfake detection assistant.";
+		case "ImageGenerator":
+			return "Please let me know what you are trying to innovate?";
+		case "ListAgents":
+			return "Here are all your ElevenLabs agents:";
+		case "QuizGenerator":
+			return "Please provide the article/document/topic that you want to generate a quiz for.";
+		case "QuoteImageGenerator":
+			return "Please provide the subject of the quote you want.";
+		case "StatisticalDataAnalyzer":
+			return "Please provide me with the data you want to analyze.";
+		case "StoryTellingApp":
+			return "Please provide your age and the topic of the story.";
+		case "ToDoAssistant":
+			return "How can I help you with your tasks today?";
+		case "Settings":
+			return "How can I help you with your settings?";
+		default:
+			return "Hello! How can I help you today?";
+	}
+};
+
+export function ChatBox({ chatbotName, chatbotKey }: ChatBoxProps): React.JSX.Element {
+	const apiClient = new ApiClient();
+	const [messages, setMessages] = useState<ChatMessage[]>([]);
+	const [inputValue, setInputValue] = useState("");
+	const [currentChatId, setCurrentChatId] = useState("");
+
+	useEffect(() => {
+		const newChatId = apiClient.generateChatId();
+		setCurrentChatId(newChatId);
+	}, []);
+
+	const handleSend = async () => {
+		if (!inputValue.trim() || !currentChatId) return;
+
+		const userMessage = inputValue.trim();
+		setInputValue("");
+
+		// Add user message to display immediately
+		setMessages((prev) => [...prev, { message: userMessage }]);
+
+		try {
+			const response = await apiClient.postMessage(currentChatId, userMessage, chatbotKey);
+			// Add AI response to messages
+			setMessages((prev) => [...prev, response]);
+		} catch (error) {
+			console.error("Error sending message:", error);
+			setMessages((prev) => [...prev, { message: "Error sending message" }]);
+		}
+	};
+
+	const handleKeyPress = (event: React.KeyboardEvent) => {
+		if (event.key === "Enter" && !event.shiftKey) {
+			event.preventDefault();
+			handleSend();
+		}
+	};
 	return (
 		<Box
 			sx={{
@@ -60,6 +128,7 @@ export function ChatBox({ chatbotName = "AI Assistant", chatbotKey = "default" }
 					bgcolor: "white",
 				}}
 			>
+				{/* Welcome message */}
 				<Box
 					sx={{
 						display: "flex",
@@ -78,9 +147,37 @@ export function ChatBox({ chatbotName = "AI Assistant", chatbotKey = "default" }
 							border: "1px solid #dee2e6",
 						}}
 					>
-						<Typography variant="body2">Hi</Typography>
+						<Typography variant="body2">{getChatbotWelcomeMessage(chatbotKey)}</Typography>
 					</Paper>
 				</Box>
+
+				{/* Chat messages */}
+				{messages.map((msg, index) => {
+					const isUser = index % 2 === 0;
+					return (
+						<Box
+							key={index}
+							sx={{
+								display: "flex",
+								justifyContent: isUser ? "flex-end" : "flex-start",
+							}}
+						>
+							<Paper
+								sx={{
+									p: 2,
+									maxWidth: "80%",
+									bgcolor: isUser ? "#007bff" : "#f8f9fa",
+									color: isUser ? "white" : "#333",
+									borderRadius: 2,
+									boxShadow: "none",
+									border: isUser ? "none" : "1px solid #dee2e6",
+								}}
+							>
+								<Typography variant="body2">{msg.message.replace(/<\/?p>/g, "")}</Typography>
+							</Paper>
+						</Box>
+					);
+				})}
 			</Box>
 
 			<Box
@@ -102,6 +199,9 @@ export function ChatBox({ chatbotName = "AI Assistant", chatbotKey = "default" }
 						placeholder="Your message here"
 						variant="outlined"
 						size="medium"
+						value={inputValue}
+						onChange={(e) => setInputValue(e.target.value)}
+						onKeyPress={handleKeyPress}
 						InputProps={{
 							startAdornment: (
 								<InputAdornment position="start">
@@ -119,6 +219,8 @@ export function ChatBox({ chatbotName = "AI Assistant", chatbotKey = "default" }
 							endAdornment: (
 								<InputAdornment position="end">
 									<IconButton
+										onClick={handleSend}
+										disabled={!inputValue.trim()}
 										size="small"
 										sx={{
 											bgcolor: "#8b5cf6",
@@ -128,6 +230,9 @@ export function ChatBox({ chatbotName = "AI Assistant", chatbotKey = "default" }
 											borderRadius: "50%",
 											"&:hover": {
 												bgcolor: "#7c3aed",
+											},
+											"&:disabled": {
+												bgcolor: "#ccc",
 											},
 										}}
 									>

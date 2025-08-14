@@ -1,20 +1,13 @@
 "use client";
 
 import * as React from "react";
-// Remove RouterLink and usePathname since we're not doing page navigation
-// import RouterLink from "next/link";
-// import { usePathname } from "next/navigation";
-// instead of …LogoNoBg.png
-import stemkasaLogo from "@/assets/stemkasalogo.png";
+import stemkasaLogo from "@/assets/stemLogoNoBg.png";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 
 import type { NavItemConfig } from "@/types/nav";
-
-// import { paths } from "@/paths";
-// import { isNavItemActive } from "@/lib/is-nav-item-active";
 
 import { navItems } from "./config";
 import { navIcons } from "./nav-icons";
@@ -28,16 +21,16 @@ export function SideNav({ activeChatbot, onChatbotChange }: SideNavProps): React
 	return (
 		<Box
 			sx={{
-				"--SideNav-background": "#5820bc",
-				"--SideNav-color": "var(--mui-palette-common-white)",
-				"--NavItem-color": "var(--mui-palette-neutral-300)",
-				"--NavItem-hover-background": "rgba(255, 255, 255, 0.04)",
-				"--NavItem-active-background": "var(--mui-palette-primary-main)",
-				"--NavItem-active-color": "var(--mui-palette-primary-contrastText)",
-				"--NavItem-disabled-color": "var(--mui-palette-neutral-500)",
-				"--NavItem-icon-color": "var(--mui-palette-neutral-400)",
-				"--NavItem-icon-active-color": "var(--mui-palette-primary-contrastText)",
-				"--NavItem-icon-disabled-color": "var(--mui-palette-neutral-600)",
+				"--SideNav-background": "#ffffff",
+				"--SideNav-color": "var(--mui-palette-common-black)",
+				"--NavItem-color": "var(--mui-palette-neutral-600)",
+				"--NavItem-hover-background": "rgba(0, 0, 0, 0.04)",
+				"--NavItem-active-background": "#8b5cf6",
+				"--NavItem-active-color": "#ffffff",
+				"--NavItem-disabled-color": "var(--mui-palette-neutral-400)",
+				"--NavItem-icon-color": "var(--mui-palette-neutral-500)",
+				"--NavItem-icon-active-color": "#ffffff",
+				"--NavItem-icon-disabled-color": "var(--mui-palette-neutral-300)",
 				bgcolor: "var(--SideNav-background)",
 				color: "var(--SideNav-color)",
 				display: { xs: "none", lg: "flex" },
@@ -50,6 +43,8 @@ export function SideNav({ activeChatbot, onChatbotChange }: SideNavProps): React
 				top: 0,
 				width: "var(--SideNav-width)",
 				zIndex: "var(--SideNav-zIndex)",
+				boxShadow: "2px 0 4px rgba(0, 0, 0, 0.1)",
+				borderRight: "1px solid var(--mui-palette-neutral-200)",
 				"&::-webkit-scrollbar": { display: "none" },
 			}}
 		>
@@ -71,12 +66,6 @@ export function SideNav({ activeChatbot, onChatbotChange }: SideNavProps): React
 							width: "auto",
 							maxWidth: "100%",
 							objectFit: "contain",
-
-							/* this gives you back the white circle */
-							backgroundColor: "#fff",
-							borderRadius: "50%", // optional, to match your original round pad
-							p: 1, // optional padding so the logo doesn't butt right up to the edge
-							//filter: 'brightness(0) invert(1)'
 						}}
 					/>
 				</Box>
@@ -85,7 +74,7 @@ export function SideNav({ activeChatbot, onChatbotChange }: SideNavProps): React
 			<Box component="nav" sx={{ flex: "1 1 auto", p: "12px" }}>
 				{renderNavItems({ activeChatbot, onChatbotChange, items: navItems })}
 			</Box>
-			<Divider sx={{ borderColor: "var(--mui-palette-neutral-700)" }} />
+			<Divider sx={{ borderColor: "var(--mui-palette-neutral-200)" }} />
 		</Box>
 	);
 }
@@ -155,11 +144,12 @@ function NavItem({
 					position: "relative",
 					textDecoration: "none",
 					whiteSpace: "nowrap",
-					"&:hover": !disabled
-						? {
-								bgcolor: "var(--NavItem-hover-background)",
-							}
-						: {},
+					"&:hover":
+						!disabled && !active
+							? {
+									bgcolor: "var(--NavItem-hover-background)",
+								}
+							: {},
 					...(disabled && {
 						bgcolor: "var(--NavItem-disabled-background)",
 						color: "var(--NavItem-disabled-color)",

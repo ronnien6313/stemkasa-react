@@ -27,12 +27,13 @@ export function MainNav(): React.JSX.Element {
 			<Box
 				component="header"
 				sx={{
-					borderBottom: "1px solid var(--mui-palette-divider)",
-					backgroundColor: "var(--mui-palette-background-paper)",
+					borderBottom: "1px solid rgba(255, 255, 255, 0.2)",
+					backgroundColor: "#8b5cf6",
+					color: "white",
 					position: "sticky",
 					top: 0,
 					zIndex: "var(--mui-zIndex-appBar)",
-					boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+					boxShadow: "0 4px 12px rgba(139, 92, 246, 0.3)",
 				}}
 			>
 				<Stack
@@ -45,25 +46,52 @@ export function MainNav(): React.JSX.Element {
 							onClick={(): void => {
 								setOpenNav(true);
 							}}
-							sx={{ display: { lg: "none" } }}
+							sx={{
+								display: { lg: "none" },
+								color: "white",
+								"&:hover": {
+									backgroundColor: "rgba(255, 255, 255, 0.1)",
+								},
+							}}
 						>
 							<ListIcon />
 						</IconButton>
 						<Tooltip title="Search">
-							<IconButton>
+							<IconButton
+								sx={{
+									color: "white",
+									"&:hover": {
+										backgroundColor: "rgba(255, 255, 255, 0.1)",
+									},
+								}}
+							>
 								<MagnifyingGlassIcon />
 							</IconButton>
 						</Tooltip>
 					</Stack>
 					<Stack sx={{ alignItems: "center" }} direction="row" spacing={2}>
 						<Tooltip title="Contacts">
-							<IconButton>
+							<IconButton
+								sx={{
+									color: "white",
+									"&:hover": {
+										backgroundColor: "rgba(255, 255, 255, 0.1)",
+									},
+								}}
+							>
 								<UsersIcon />
 							</IconButton>
 						</Tooltip>
 						<Tooltip title="Notifications">
 							<Badge badgeContent={4} color="success" variant="dot">
-								<IconButton>
+								<IconButton
+									sx={{
+										color: "white",
+										"&:hover": {
+											backgroundColor: "rgba(255, 255, 255, 0.1)",
+										},
+									}}
+								>
 									<BellIcon />
 								</IconButton>
 							</Badge>
@@ -72,7 +100,13 @@ export function MainNav(): React.JSX.Element {
 							onClick={userPopover.handleOpen}
 							ref={userPopover.anchorRef}
 							src="/assets/avatar.png"
-							sx={{ cursor: "pointer" }}
+							sx={{
+								cursor: "pointer",
+								border: "2px solid rgba(255, 255, 255, 0.2)",
+								"&:hover": {
+									border: "2px solid rgba(255, 255, 255, 0.4)",
+								},
+							}}
 						/>
 					</Stack>
 				</Stack>
