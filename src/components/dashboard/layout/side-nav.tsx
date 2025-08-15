@@ -25,7 +25,7 @@ export function SideNav({ activeChatbot, onChatbotChange }: SideNavProps): React
 				"--SideNav-color": "var(--mui-palette-common-black)",
 				"--NavItem-color": "var(--mui-palette-neutral-600)",
 				"--NavItem-hover-background": "rgba(0, 0, 0, 0.04)",
-				"--NavItem-active-background": "#8b5cf6",
+				"--NavItem-active-background": "#6d28d9",
 				"--NavItem-active-color": "#ffffff",
 				"--NavItem-disabled-color": "var(--mui-palette-neutral-400)",
 				"--NavItem-icon-color": "var(--mui-palette-neutral-500)",

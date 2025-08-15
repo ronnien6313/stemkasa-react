@@ -38,7 +38,7 @@ export function ChatList(): React.JSX.Element {
 				</Typography>
 				<IconButton
 					sx={{
-						bgcolor: "#8b5cf6",
+						bgcolor: "#6d28d9",
 						color: "white",
 						width: 32,
 						height: 32,
@@ -54,7 +54,7 @@ export function ChatList(): React.JSX.Element {
 							display: "none",
 						},
 						"&:hover": {
-							bgcolor: "#6d28d9",
+							bgcolor: "#5b21b6",
 						},
 					}}
 				>
@@ -66,13 +66,13 @@ export function ChatList(): React.JSX.Element {
 				<ListItem disablePadding>
 					<ListItemButton
 						sx={{
-							bgcolor: "#8b5cf6",
+							bgcolor: "#6d28d9",
 							color: "white",
 							mx: 1,
 							my: 0.5,
 							borderRadius: 1,
 							"&:hover": {
-								bgcolor: "#6d28d9",
+								bgcolor: "#5b21b6",
 							},
 						}}
 					>

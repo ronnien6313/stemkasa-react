@@ -13,7 +13,7 @@ interface ChatBoxProps {
 
 const getChatbotWelcomeMessage = (chatbotKey: string): string => {
 	switch (chatbotKey) {
-		case "AiAgent":
+		case "AIAgent":
 			return "Please describe the AI agent you want to create. Include details about its personality, knowledge areas, and how it should interact with users.";
 		case "Claude":
 			return "Hi! I'm Claude, please provide your question.";
@@ -53,18 +53,24 @@ export function ChatBox({ chatbotName, chatbotKey }: ChatBoxProps): React.JSX.El
 		setCurrentChatId(newChatId);
 	}, []);
 
+	useEffect(() => {
+		setMessages([]);
+		setInputValue("");
+		const newChatId = apiClient.generateChatId();
+		setCurrentChatId(newChatId);
+	}, [chatbotKey]);
+
 	const handleSend = async () => {
 		if (!inputValue.trim() || !currentChatId) return;
 
 		const userMessage = inputValue.trim();
 		setInputValue("");
 
-		// Add user message to display immediately
 		setMessages((prev) => [...prev, { message: userMessage }]);
 
 		try {
 			const response = await apiClient.postMessage(currentChatId, userMessage, chatbotKey);
-			// Add AI response to messages
+
 			setMessages((prev) => [...prev, response]);
 		} catch (error) {
 			console.error("Error sending message:", error);
@@ -98,7 +104,7 @@ export function ChatBox({ chatbotName, chatbotKey }: ChatBoxProps): React.JSX.El
 			>
 				<Avatar
 					sx={{
-						bgcolor: "#8b5cf6",
+						bgcolor: "#6d28d9",
 						width: 32,
 						height: 32,
 						fontSize: "16px",
@@ -223,13 +229,13 @@ export function ChatBox({ chatbotName, chatbotKey }: ChatBoxProps): React.JSX.El
 										disabled={!inputValue.trim()}
 										size="small"
 										sx={{
-											bgcolor: "#8b5cf6",
+											bgcolor: "#6d28d9",
 											color: "white",
 											width: 32,
 											height: 32,
 											borderRadius: "50%",
 											"&:hover": {
-												bgcolor: "#7c3aed",
+												bgcolor: "#5b21b6",
 											},
 											"&:disabled": {
 												bgcolor: "#ccc",
@@ -247,10 +253,10 @@ export function ChatBox({ chatbotName, chatbotKey }: ChatBoxProps): React.JSX.El
 									borderColor: "#dee2e6",
 								},
 								"&:hover .MuiOutlinedInput-notchedOutline": {
-									borderColor: "#8b5cf6",
+									borderColor: "#6d28d9",
 								},
 								"&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-									borderColor: "#8b5cf6",
+									borderColor: "#6d28d9",
 								},
 							},
 						}}

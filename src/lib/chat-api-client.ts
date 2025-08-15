@@ -28,7 +28,7 @@ export class ApiClient {
     return this.userId;
   }
 
-  async postMessage(chatId: string, message: string, appName: string = 'AIAgent') {
+  async postMessage(chatId: string, message: string, appName: string = "AIAgent") {
     const response = await fetch(`${this.host}/api/chat?app=${appName}`, {
       method: 'POST',
       headers: {

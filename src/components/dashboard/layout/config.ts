@@ -1,7 +1,7 @@
 import type { NavItemConfig } from '@/types/nav';
 
 export const navItems = [
-  { key: 'AiAgent', title: 'AI Agent', icon: 'robot' },
+  { key: 'AIAgent', title: 'AI Agent', icon: 'robot' },
   { key: 'Claude', title: 'Claude', icon: 'ChatCenteredDots' },
   { key: 'ConversationalAppCreator', title: 'Conversational App Creator', icon: 'pencilruler' },
   { key: 'Deepfake', title: 'Deepfake', icon: 'Smiley' },

@@ -28,12 +28,12 @@ export function MainNav(): React.JSX.Element {
 				component="header"
 				sx={{
 					borderBottom: "1px solid rgba(255, 255, 255, 0.2)",
-					backgroundColor: "#8b5cf6",
+					backgroundColor: "#6d28d9",
 					color: "white",
 					position: "sticky",
 					top: 0,
 					zIndex: "var(--mui-zIndex-appBar)",
-					boxShadow: "0 4px 12px rgba(139, 92, 246, 0.3)",
+					boxShadow: "0 4px 12px rgba(109, 40, 217, 0.3)",
 				}}
 			>
 				<Stack
