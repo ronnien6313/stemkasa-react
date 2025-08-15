@@ -19,14 +19,14 @@ import { Notifications } from "@/components/dashboard/settings/notifications";
 import { UpdatePasswordForm } from "@/components/dashboard/settings/update-password-form";
 
 export default function Layout({ children }: { children: React.ReactNode }): React.JSX.Element {
-	const [activeChatbot, setActiveChatbot] = useState("aiAgent");
+	const [activeChatbot, setActiveChatbot] = useState("AIAgent");
 
 	const handleChatbotChange = (chatbotKey: string) => {
 		setActiveChatbot(chatbotKey);
 	};
 
 	const renderChatbot = () => {
-		if (activeChatbot === "settings") {
+		if (activeChatbot === "Settings") {
 			return (
 				<Box sx={{ p: 3 }}>
 					<Stack spacing={3}>
@@ -87,7 +87,7 @@ export default function Layout({ children }: { children: React.ReactNode }): Rea
 						component="main"
 						sx={{
 							flex: 1,
-							overflow: activeChatbot === "settings" ? "auto" : "hidden",
+							overflow: activeChatbot === "Settings" ? "auto" : "hidden",
 						}}
 					>
 						{renderChatbot()}
